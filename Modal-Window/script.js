@@ -19,11 +19,15 @@ document.querySelectorAll('.show-modal').forEach((button)=>{
     button.addEventListener(
         'click', openModal
     )
+})
 
-    // button.addEventListener(, () => {
-    //     modal.classList.remove('hidden');
-    //     overlay.classList.remove('hidden');
-    //  })
+document.addEventListener('keydown', (e)=>{
+    if (
+        e.key === 'Escape' && !modal.classList.contains('hidden')
+    )
+    {
+        closeModal()
+    }
 })
 
 document.querySelector('.close-modal').addEventListener('click', closeModal)
