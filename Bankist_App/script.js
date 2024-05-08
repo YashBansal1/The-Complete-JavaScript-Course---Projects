@@ -70,7 +70,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-containerApp.style.opacity = 100 ;
+//containerApp.style.opacity = 100 ;
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
   movements.forEach(function(mov, i){
@@ -87,14 +87,10 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements)
-
 const calDisplayBalance = function(movements) {
   const balance = movements.reduce((acc, mov)=>acc+mov, 0);
   labelBalance.textContent = `${balance} €`
 }
-
-calDisplayBalance(account1.movements);
 
 const calDisplaySummary = function(movements) {
   const income = movements.filter(mov=>mov>0).reduce((acc, mov)=>acc+mov, 0);
@@ -106,9 +102,6 @@ const calDisplaySummary = function(movements) {
   labelSumInterest.textContent = `${interest} €`;
 
 }
-calDisplaySummary(account1.movements);
-
-
 const createUserName = function(accs) {
 
   accs.forEach((acc)=>
@@ -118,18 +111,28 @@ const createUserName = function(accs) {
 };
 
 createUserName(accounts);
-console.log(accounts);
 
 
+let currentAccount;
 
-// btnLogin.addEventListener('click', ()=>{
-//   const userName = inputLoginUsername.value;
-//   console.log(userName);
-//   const pin = inputLoginPin;
-//   accounts.forEach( (account)=>{
-//     if(account.userName === userName && account.pin === pin){
-//       console.log('Login Successful');
-//       containerApp.style.opacity = 100;
-//     }
-//   })
-// });
+btnLogin.addEventListener('click', (e)=>{
+  //In a form by default our button goes to submit and reload the page we don't want that. To stop that from happening we need to pass the event object using which we can call the preventDefault() method;
+  e.preventDefault();
+
+  const userName = inputLoginUsername.value;
+  console.log(userName);
+  const pinNumber = Number(inputLoginPin.value);
+  console.log(pinNumber);
+  // find function does not take more than one statement and no {}
+  currentAccount = accounts.find(account => account.userName == userName)
+  console.log(currentAccount);
+  if(currentAccount?.pin == pinNumber)
+   {
+     containerApp.style.opacity = 100;
+     displayMovements(currentAccount.movements);
+     calDisplayBalance(currentAccount.movements);
+     calDisplaySummary(currentAccount.movements);
+   }
+  else
+   console.log("Not logged in");
+  });s
