@@ -71,9 +71,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 //containerApp.style.opacity = 100 ;
-const displayMovements = function (acc) {
+const displayMovements = function (acc, sort=false) {
   containerMovements.innerHTML = '';
-  acc.movements.forEach(function(mov, i){
+
+  const  movs = sort ? acc.movements.slice().sort((a, b) => a-b): acc.movements;
+  
+  movs.forEach(function(mov, i){
 
     const type = mov>0?'deposit':'withdrawal';
 
@@ -113,6 +116,8 @@ const createUserName = function(accs) {
 };
 
 createUserName(accounts);
+
+
 const updateUI = function() {
     displayMovements(currentAccount);
      calDisplayBalance(currentAccount);
@@ -173,7 +178,7 @@ btnLogin.addEventListener('click', (e)=>{
     console.log("Loan not granted");
     inputLoanAmount.value = '';
   })
-  
+
   btnClose.addEventListener('click', (e)=>{
       e.preventDefault();
       const userName = inputCloseUsername.value;
@@ -188,4 +193,10 @@ btnLogin.addEventListener('click', (e)=>{
         }
         else
         console.log("Can't Delete the account");
+  })
+  let sorted = false;
+  btnSort.addEventListener('click', (e)=>{
+    e.preventDefault();
+    sorted = !sorted;
+    displayMovements(currentAccount, sorted);
   })
