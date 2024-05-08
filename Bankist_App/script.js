@@ -149,9 +149,7 @@ btnLogin.addEventListener('click', (e)=>{
     e.preventDefault();
     const amount = Number(inputTransferAmount.value);
     const receiverAcc = accounts.find(acc => acc.userName == inputTransferTo.value)
-    console.log(amount);
-    console.log(receiverAcc);
-    console.log(currentAccount)
+  
     if(amount > 0 && receiverAcc && currentAccount.balance >= amount && receiverAcc?.userName !== currentAccount.userName)
     {
       currentAccount.movements.push(-amount);
@@ -161,4 +159,33 @@ btnLogin.addEventListener('click', (e)=>{
     else
     console.log("Amount not transferred");
     inputTransferAmount.value = inputTransferTo.value = '';
+  })
+
+  btnLoan.addEventListener('click',  (e)=>{
+    e.preventDefault();
+    const amount = Number(inputLoanAmount.value);
+    if(amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1))
+    {
+      currentAccount.movements.push(amount);
+      updateUI();
+    }
+    else
+    console.log("Loan not granted");
+    inputLoanAmount.value = '';
+  })
+  
+  btnClose.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const userName = inputCloseUsername.value;
+      const pin = Number(inputClosePin.value);
+      if(currentAccount.userName ==  userName && currentAccount.pin == pin)
+        {
+          const index = accounts.findIndex(acc => acc.userName = currentAccount.userName);
+          accounts.splice(index, 1);
+          containerApp.style.opacity = 0;
+          inputCloseUsername.value = inputClosePin.value = '';
+          labelWelcome.textContent = 'Log in to get started';
+        }
+        else
+        console.log("Can't Delete the account");
   })
