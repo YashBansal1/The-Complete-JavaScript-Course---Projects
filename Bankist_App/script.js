@@ -12,10 +12,10 @@ const account1 = {
   pin: 1111,
 
   movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
+    '2024-05-04T21:31:17.178Z',
+    '2024-05-07T07:42:02.383Z',
+    '2024-05-08T09:15:04.904Z',
+    '2024-05-09T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-05-27T17:01:17.194Z',
     '2020-07-11T23:36:17.929Z',
@@ -117,6 +117,16 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const formatDate = function(date){
+  const daysPassed = Math.round(Math.abs( new Date() - date )/ (1000*60*60*24));
+
+  if (daysPassed == 0) return 'Today';
+  if (daysPassed == 1) return 'Yesterday';
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  else {
+    return `${date.toLocaleDateString()}`;
+  }
+}
 
 const displayMovements = function (acc, sort=false) {
   labelDate.textContent = new Date().toLocaleDateString();
@@ -126,11 +136,13 @@ const displayMovements = function (acc, sort=false) {
   
   movs.forEach(function(mov, i){
 
+    const date = new Date(acc.movementsDates[i]);
+    const displayDate = formatDate(date);
     const type = mov>0?'deposit':'withdrawal';
 
     const html = ` <div class="movements__row">
     <div class="movements__type movements__type--${type}">${i+1} ${type}</div>
-    <div class="movements__date">${new Date(acc.movementsDates[i]).toLocaleDateString()}</div>
+    <div class="movements__date">${displayDate}</div>
     <div class="movements__value">${mov.toFixed(2)} €</div>
   </div>`;
   
@@ -192,12 +204,10 @@ btnLogin.addEventListener('click', (e)=>{
      inputLoginPin.blur();
      labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
      updateUI();
-     
+
    }
   else
    console.log("Not logged in");
-
-  
   });
 
   btnTransfer.addEventListener('click',  (e)=>{
