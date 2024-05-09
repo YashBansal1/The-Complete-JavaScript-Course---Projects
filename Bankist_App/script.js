@@ -1,7 +1,5 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
 // BANKIST APP
 
 // Data
@@ -248,15 +246,12 @@ btnLogin.addEventListener('click', (e) => {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric',
-      //  weekday : 'long',
     }
     labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(new Date());
 
     timer = startLogoutTimer();
 
     updateUI();
-
-
   }
   else
     console.log("Not logged in");
